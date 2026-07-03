@@ -2,6 +2,7 @@
   "name": "resound",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.20.0",
   "imports": {
     "#/*": "./src/*"
   },
@@ -54,7 +55,9 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
-      "lightningcss"
+      "lightningcss",
+      "sharp",
+      "workerd"
     ]
   }
 }
