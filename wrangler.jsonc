@@ -5,11 +5,19 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "resound",
+	"account_id": "ea5d80914004ebee2cda18815085ca72",
 	"compatibility_date": "2025-09-02",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
 	"main": "@tanstack/react-start/server-entry",
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "resound-db",
+			"database_id": "fa710a09-21af-4b86-b694-3304cba910f6"
+		}
+	],
 	"observability": {
 		"enabled": true
 	},
