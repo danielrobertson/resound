@@ -1,6 +1,6 @@
 import { useState, type CSSProperties, type FormEvent, type ReactNode } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import { signIn, signUp } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -150,7 +150,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
             {loading ? `${c.pending}…` : c.action}
           </span>
           <span className="flex size-7 items-center justify-center rounded-full bg-primary-foreground/15 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
-            <ArrowRight strokeWidth={1.75} className="size-4" />
+            <ArrowRight weight="light" className="size-4" />
           </span>
         </Button>
       </form>

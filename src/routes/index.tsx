@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
@@ -32,7 +32,7 @@ function Home() {
         >
           Get started
           <ArrowRight
-            strokeWidth={1.75}
+            weight="light"
             className="size-4 transition-transform group-hover:translate-x-0.5"
           />
         </Link>

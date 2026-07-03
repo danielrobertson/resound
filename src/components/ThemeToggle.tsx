@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Monitor, Moon, Sun } from 'lucide-react'
+import { Monitor, Moon, Sun } from '@phosphor-icons/react/dist/ssr'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 
@@ -78,7 +78,7 @@ export default function ThemeToggle() {
       title={label}
       className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
     >
-      <Icon strokeWidth={1.75} className="size-[18px]" />
+      <Icon weight="light" className="size-[18px]" />
       <span className="sr-only">{label}</span>
     </button>
   )
