@@ -1,4 +1,9 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  useRouterState,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '../components/Footer'
@@ -19,7 +24,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Resound — lessons that continue to resonate',
       },
     ],
     links: [
@@ -32,7 +37,12 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+const CHROMELESS_ROUTES = new Set(['/login', '/signup'])
+
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const showChrome = !CHROMELESS_ROUTES.has(pathname)
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -40,9 +50,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
-        <Header />
+        {showChrome && <Header />}
         {children}
-        <Footer />
+        {showChrome && <Footer />}
         <TanStackDevtools
           config={{
             position: 'bottom-right',
