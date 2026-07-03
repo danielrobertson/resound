@@ -15,7 +15,8 @@
 		{
 			"binding": "DB",
 			"database_name": "resound-db",
-			"database_id": "fa710a09-21af-4b86-b694-3304cba910f6"
+			"database_id": "fa710a09-21af-4b86-b694-3304cba910f6",
+			"migrations_dir": "drizzle"
 		}
 	],
 	"observability": {
