@@ -33,7 +33,13 @@ const COPY = {
 
 const FIELD_CLASS = 'h-11 text-[15px]'
 
-export function AuthForm({ mode }: { mode: Mode }) {
+export function AuthForm({
+  mode,
+  redirectTo = '/home',
+}: {
+  mode: Mode
+  redirectTo?: string
+}) {
   const c = COPY[mode]
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -58,7 +64,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       return
     }
 
-    navigate({ to: '/' })
+    navigate({ to: redirectTo as '/home' })
   }
 
   // Staggered entrance: each field animates up slightly after the previous.
