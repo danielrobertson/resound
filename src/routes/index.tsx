@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { useSession } from '@/lib/auth-client'
 import { WaveMark } from '@/components/WaveMark'
+import { HeroShader } from '@/components/HeroShader'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -336,7 +337,7 @@ function FeatureCard({
 function Home() {
   return (
     <main id="main" className="relative">
-      <div aria-hidden className="hero-wash pointer-events-none absolute inset-x-0 top-0 h-[36rem]" />
+      <HeroShader />
 
       {/* Hero */}
       <section className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pt-24 pb-24 text-center sm:px-6 sm:pt-32">
