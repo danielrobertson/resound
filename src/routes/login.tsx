@@ -9,7 +9,7 @@ export const Route = createFileRoute('/login')({
   beforeLoad: async ({ search }) => {
     const session = await getSession()
     if (session) {
-      throw redirect({ to: (search.redirect ?? '/home') as '/home' })
+      throw redirect({ to: (search.redirect ?? '/studio') as '/studio' })
     }
   },
   component: LoginPage,
@@ -20,7 +20,7 @@ function LoginPage() {
   const { redirect: redirectTo } = Route.useSearch()
   return (
     <AuthShell>
-      <AuthForm mode="login" redirectTo={redirectTo ?? '/home'} />
+      <AuthForm mode="login" redirectTo={redirectTo ?? '/studio'} />
     </AuthShell>
   )
 }

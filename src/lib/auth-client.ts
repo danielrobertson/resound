@@ -1,4 +1,4 @@
-import { createAuthClient } from "better-auth/client";
+import { createAuthClient } from "better-auth/react";
 
 // Same-origin: the client infers baseURL from the browser location, so no
 // baseURL is needed. Import { signIn, signUp, signOut, useSession } from here.

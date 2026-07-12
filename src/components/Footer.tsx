@@ -11,7 +11,7 @@ export default function Footer() {
             href="https://danielrobertson.dev"
             target="_blank"
             rel="noreferrer"
-            className="font-medium text-foreground underline-offset-4 transition-colors hover:underline"
+            className="rounded-sm font-medium text-foreground underline-offset-4 transition-colors hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             danielrobertson
           </a>

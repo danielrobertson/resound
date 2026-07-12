@@ -58,3 +58,22 @@ export const verification = sqliteTable("verification", {
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
 });
+
+// A captured lesson moment: an uploaded media file, camera video, or audio
+// clip. The bytes live in R2 (env.MEDIA) under `storageKey`; this row is the
+// queryable metadata that powers the studio home.
+export const recording = sqliteTable("recording", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  // "video" | "audio" | "file" — derived from the uploaded MIME type.
+  kind: text("kind").notNull(),
+  title: text("title").notNull(),
+  contentType: text("content_type").notNull(),
+  size: integer("size").notNull(),
+  storageKey: text("storage_key").notNull().unique(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+});

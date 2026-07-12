@@ -35,7 +35,7 @@ const FIELD_CLASS = 'h-11 text-[15px]'
 
 export function AuthForm({
   mode,
-  redirectTo = '/home',
+  redirectTo = '/studio',
 }: {
   mode: Mode
   redirectTo?: string
@@ -64,7 +64,7 @@ export function AuthForm({
       return
     }
 
-    navigate({ to: redirectTo as '/home' })
+    navigate({ to: redirectTo as '/studio' })
   }
 
   // Staggered entrance: each field animates up slightly after the previous.
@@ -76,9 +76,9 @@ export function AuthForm({
       <span className="inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         {c.eyebrow}
       </span>
-      <h2 className="mt-5 text-[2rem] font-semibold leading-tight tracking-tight">
+      <h1 className="mt-5 font-heading text-[2rem] font-semibold leading-tight tracking-tight">
         {c.title}
-      </h2>
+      </h1>
       <p className="mt-2 text-[15px] leading-6 text-muted-foreground">
         {c.subtitle}
       </p>
@@ -111,6 +111,8 @@ export function AuthForm({
             name="email"
             type="email"
             autoComplete="email"
+            autoCapitalize="none"
+            spellCheck={false}
             placeholder="you@studio.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -133,8 +135,14 @@ export function AuthForm({
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
+            aria-describedby={mode === 'signup' ? 'password-hint' : undefined}
             className={FIELD_CLASS}
           />
+          {mode === 'signup' && (
+            <p id="password-hint" className="text-xs text-muted-foreground">
+              At least 8 characters.
+            </p>
+          )}
         </Field>
 
         {error && (
@@ -165,7 +173,7 @@ export function AuthForm({
         {c.altText}{' '}
         <Link
           to={c.altTo}
-          className="font-medium text-foreground underline-offset-4 transition-colors hover:underline"
+          className="rounded-sm font-medium text-foreground underline-offset-4 transition-colors hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
         >
           {c.altLink}
         </Link>

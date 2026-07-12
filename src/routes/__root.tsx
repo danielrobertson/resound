@@ -26,6 +26,21 @@ export const Route = createRootRoute({
       {
         title: 'Resound — lessons that continue to resonate',
       },
+      {
+        name: 'description',
+        content:
+          'Record video, audio, and notes from every music lesson, then recall any moment in seconds.',
+      },
+      {
+        name: 'theme-color',
+        media: '(prefers-color-scheme: light)',
+        content: '#ffffff',
+      },
+      {
+        name: 'theme-color',
+        media: '(prefers-color-scheme: dark)',
+        content: '#0f0f0f',
+      },
     ],
     links: [
       {
@@ -49,7 +64,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
+      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-primary/20">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:ring-[3px] focus:ring-ring/50"
+        >
+          Skip to content
+        </a>
         {showChrome && <Header />}
         {children}
         {showChrome && <Footer />}

@@ -29,6 +29,8 @@ pnpm deploy              # build + wrangler deploy
 
 Vitest uses `@cloudflare/vitest-pool-workers` (see `vitest.config.mts`), so tests run inside the Workers runtime.
 
+**Verification: `pnpm typecheck` passing is sufficient.** Do not spin up the dev server or otherwise confirm live behavior after a change unless the user explicitly asks — a clean typecheck is the accepted bar for done.
+
 ## Architecture
 
 ### Cloudflare bindings (the central pattern)
@@ -47,13 +49,17 @@ Bindings are accessed at **module scope** via `import { env } from "cloudflare:w
 - Workflow after any schema change: `pnpm db:generate` → `pnpm db:migrate:local` (and `:remote` before deploying). `wrangler.jsonc` points `migrations_dir` at `drizzle/`.
 - **Local and remote D1 are separate databases.** `db:migrate:local` writes to `.wrangler/state`; the deployed Worker uses the remote `resound-db`. Data does *not* sync between them — a user created on `localhost` does not exist in prod. **`wrangler deploy` ships code only; it never runs migrations.** So a fresh schema change (or a first deploy) requires `pnpm db:migrate:remote` explicitly. Symptom of skipping it: the app deploys fine but every request 500s with `Failed query: select ... from "user"` (missing table) — check live logs via `wrangler tail resound`.
 
+### Media storage (R2)
+- Recording bytes (uploaded files, and later camera/mic captures) live in the **R2 bucket bound as `env.MEDIA`** (`resound-media` in `wrangler.jsonc`); the queryable metadata is the `recording` table in D1. Upload flow: `src/routes/api/recordings.ts` (POST, auth-checked, `env.MEDIA.put` + insert row) ← client `fetch('/api/recordings', FormData)` in `routes/studio.tsx`; `src/lib/recordings.ts#listRecordings` reads them back for the `/studio` loader (the signed-in app route).
+- **Local R2 is simulated in `.wrangler/state`** by the vite plugin/miniflare, so uploads work in `pnpm dev` with no remote bucket. **Before deploying you must create the remote bucket once:** `wrangler r2 bucket create resound-media` (uses the account from `wrangler.jsonc` — do not export `CLOUDFLARE_ACCOUNT_ID`). Like D1, local and remote buckets are separate and never sync.
+
 ### Routing & document shell
 - File-based routes in `src/routes/`. `src/routeTree.gen.ts` is auto-generated — **do not edit**; it regenerates on dev/build (or `pnpm generate-routes`).
 - `src/routes/__root.tsx` is the HTML shell (renders `Header`/`Footer` around the `Outlet`). It suppresses the site chrome for full-bleed auth pages via `CHROMELESS_ROUTES` (`/login`, `/signup`). An inline script there sets the theme class before hydration.
 
 ### Theming & UI conventions
 - **ShadCn "radix-nova" style, neutral-gray base with a green primary.** All color comes from semantic tokens in `src/styles.css` (`bg-background`, `text-muted-foreground`, `border-border`, `bg-primary`, …) defined as OKLCH vars in `:root`/`.dark`. The palette was applied via a shadcn theme preset (`shadcn apply --preset`), which also imports `shadcn/tailwind.css` and adds the `--radius-2xl/3xl/4xl` and `--font-heading` tokens. Do not reintroduce the old TanStack teal/`--sea-ink`/`island-shell` tokens — they were removed.
-- Dark mode uses the **`.dark` class** (toggled by `ThemeToggle` + the root inline script), wired via `@custom-variant dark`. Inter is the sans font (`--font-sans`), self-hosted via `@fontsource-variable/inter` and applied globally by `html { @apply font-sans }`.
+- Dark mode uses the **`.dark` class** (toggled by `ThemeToggle` + the root inline script), wired via `@custom-variant dark`. Inter is the sans font (`--font-sans`), self-hosted via `@fontsource-variable/inter` and applied globally by `html { @apply font-sans }`. Display headings use **Bricolage Grotesque** (`--font-heading`, self-hosted via `@fontsource-variable/bricolage-grotesque`) applied per-element with the `font-heading` utility — body copy stays Inter.
 - **Icons: Phosphor only** — `import { X } from "@phosphor-icons/react/dist/ssr"` with `weight="light"`. `lucide-react` is uninstalled; do not add it back.
 - Adding ShadCn components: `pnpm dlx shadcn@latest add <component>`. `components.json` targets `src/styles.css` and `iconLibrary: "phosphor"`, but the CLI may still emit lucide-named icon imports — swap them to Phosphor by hand.
 
