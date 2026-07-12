@@ -11,13 +11,14 @@ export const Route = createFileRoute('/')({ component: Home })
 
 /* ------------------------------- waveform data --------------------------- */
 
-// Deterministic bar heights (module scope) so SSR and client markup match.
+// Bar heights are rounded to 0.1 so SSR and client markup match — Math.sin
+// isn't bit-identical across engines (workerd renders, the browser hydrates).
 const WAVE_BARS = Array.from({ length: 56 }, (_, i) => {
   const wob =
     Math.sin(i * 0.9) * 0.5 +
     Math.sin(i * 0.33 + 1.7) * 0.35 +
     Math.sin(i * 2.1 + 0.4) * 0.15
-  return 16 + (wob * 0.5 + 0.5) * 76
+  return Math.round((16 + (wob * 0.5 + 0.5) * 76) * 10) / 10
 })
 
 // Chip delay = sweep duration (9s, see styles.css) × horizontal position, so
@@ -231,8 +232,9 @@ function CaptureIllo() {
   )
 }
 
+// Rounded to 0.1 for the same SSR/client Math.sin reason as WAVE_BARS.
 const RECALL_BARS = Array.from({ length: 17 }, (_, i) => {
-  return 10 + (Math.sin(i * 1.3 + 0.6) * 0.5 + 0.5) * 34
+  return Math.round((10 + (Math.sin(i * 1.3 + 0.6) * 0.5 + 0.5) * 34) * 10) / 10
 })
 const RECALL_FOUND = new Set([11, 12, 13])
 
