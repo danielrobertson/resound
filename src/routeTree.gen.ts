@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as OgImageRouteImport } from './routes/og-image'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiRecordingsRouteImport } from './routes/api/recordings'
@@ -24,6 +25,11 @@ const StudioRoute = StudioRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OgImageRoute = OgImageRouteImport.update({
+  id: '/og-image',
+  path: '/og-image',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -50,6 +56,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/og-image': typeof OgImageRoute
   '/signup': typeof SignupRoute
   '/studio': typeof StudioRoute
   '/api/recordings': typeof ApiRecordingsRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/og-image': typeof OgImageRoute
   '/signup': typeof SignupRoute
   '/studio': typeof StudioRoute
   '/api/recordings': typeof ApiRecordingsRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/og-image': typeof OgImageRoute
   '/signup': typeof SignupRoute
   '/studio': typeof StudioRoute
   '/api/recordings': typeof ApiRecordingsRoute
@@ -75,13 +84,27 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/login' | '/signup' | '/studio' | '/api/recordings' | '/api/auth/$'
+    | '/'
+    | '/login'
+    | '/og-image'
+    | '/signup'
+    | '/studio'
+    | '/api/recordings'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/studio' | '/api/recordings' | '/api/auth/$'
+  to:
+    | '/'
+    | '/login'
+    | '/og-image'
+    | '/signup'
+    | '/studio'
+    | '/api/recordings'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
     | '/login'
+    | '/og-image'
     | '/signup'
     | '/studio'
     | '/api/recordings'
@@ -91,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  OgImageRoute: typeof OgImageRoute
   SignupRoute: typeof SignupRoute
   StudioRoute: typeof StudioRoute
   ApiRecordingsRoute: typeof ApiRecordingsRoute
@@ -111,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/og-image': {
+      id: '/og-image'
+      path: '/og-image'
+      fullPath: '/og-image'
+      preLoaderRoute: typeof OgImageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -147,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  OgImageRoute: OgImageRoute,
   SignupRoute: SignupRoute,
   StudioRoute: StudioRoute,
   ApiRecordingsRoute: ApiRecordingsRoute,
