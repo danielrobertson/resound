@@ -313,7 +313,10 @@ function FeatureCard({
 }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <div className="group h-full rounded-[1.75rem] border border-border/60 bg-muted/30 p-1.5 transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-border hover:shadow-[0_22px_45px_-28px_rgba(0,0,0,0.35)]">
+      {/* Asymmetric hover timing: a gentle 280ms ease-out lift in (motion
+          spread across the full duration, no jump), and a slower 420ms
+          ease-in-out settle on the way back. */}
+      <div className="group h-full rounded-[1.75rem] border border-border/60 bg-muted/30 p-1.5 transition-[translate,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.37,0,0.63,1)] hover:-translate-y-1 hover:border-border hover:shadow-[0_22px_45px_-28px_rgba(0,0,0,0.35)] hover:duration-[280ms] hover:ease-[cubic-bezier(0.215,0.61,0.355,1)]">
         <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           <div className="text-foreground/70">{illustration}</div>
           <h3 className="mt-6 font-heading text-lg font-semibold tracking-tight">

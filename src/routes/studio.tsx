@@ -257,9 +257,10 @@ function ActionCard({
       {/* Outer shell of the double-bezel — a machined tray the card sits in. */}
       <div
         className={cn(
-          'h-full rounded-[1.75rem] border border-border/60 bg-muted/30 p-1.5 transition-[transform,border-color,box-shadow] duration-500',
-          EASE,
-          'group-hover:-translate-y-1 group-hover:border-border group-hover:shadow-[0_22px_45px_-28px_rgba(0,0,0,0.35)]',
+          // Matches the landing feature cards: 280ms ease-out lift in,
+          // slower 420ms ease-in-out settle on the way back.
+          'h-full rounded-[1.75rem] border border-border/60 bg-muted/30 p-1.5 transition-[translate,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.37,0,0.63,1)]',
+          'group-hover:-translate-y-1 group-hover:border-border group-hover:shadow-[0_22px_45px_-28px_rgba(0,0,0,0.35)] group-hover:duration-[280ms] group-hover:ease-[cubic-bezier(0.215,0.61,0.355,1)]',
         )}
       >
         {/* Inner core with its own top highlight for concentric depth. */}
@@ -293,7 +294,7 @@ function ActionCard({
             disabled={disabled}
             aria-label={soon ? `${title} — coming soon` : cta}
             className={cn(
-              'group/cta mt-7 inline-flex w-fit items-center gap-2 rounded-full py-1.5 pr-1.5 pl-4 text-sm font-medium transition-[transform,background-color] duration-500',
+              'group/cta mt-7 inline-flex w-fit items-center gap-2 rounded-full py-1.5 pr-1.5 pl-4 text-sm font-medium transition-[scale,background-color] duration-500',
               EASE,
               'active:scale-[0.98] disabled:cursor-not-allowed',
               'focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none',
@@ -331,9 +332,8 @@ function RecordingCard({ recording }: { recording: Recording }) {
   return (
     <article
       className={cn(
-        'group rounded-[1.5rem] border border-border/60 bg-muted/30 p-1.5 transition-[transform,border-color,box-shadow] duration-500',
-        EASE,
-        'hover:-translate-y-0.5 hover:border-border hover:shadow-[0_18px_38px_-26px_rgba(0,0,0,0.35)]',
+        'group rounded-[1.5rem] border border-border/60 bg-muted/30 p-1.5 transition-[translate,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.37,0,0.63,1)]',
+        'hover:-translate-y-0.5 hover:border-border hover:shadow-[0_18px_38px_-26px_rgba(0,0,0,0.35)] hover:duration-[280ms] hover:ease-[cubic-bezier(0.215,0.61,0.355,1)]',
       )}
     >
       <div className="flex h-full flex-col rounded-[calc(1.5rem-0.375rem)] bg-card p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
